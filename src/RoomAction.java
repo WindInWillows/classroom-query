@@ -6,7 +6,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class RoomAction extends ActionSupport{
 
     public String getRoomDetail() {
-        
+
         return SUCCESS;
     }
 }
