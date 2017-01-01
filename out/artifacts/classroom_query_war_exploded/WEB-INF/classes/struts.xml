@@ -5,11 +5,4 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-<package name="upload" namespace="/" extends="struts-default">
-    <action name="uploadData" class="uploadAction">
-        <result name="success">index.jsp</result>
-        <result name="error">error.jsp</result>
-    </action>
-</package>
-
 </struts>
