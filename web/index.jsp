@@ -80,6 +80,19 @@
     </div>
   </div>
 
+ <%-- <script src="./res/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $.post('/test',{
+        "text":"hello",
+      },
+      function (data) {
+        alert(data);
+      });
+    });
+
+  </script>--%>
+
   <jsp:include page="include.jsp" />
 
 </body></html>

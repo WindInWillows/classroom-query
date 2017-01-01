@@ -1,6 +1,6 @@
 $(document).ready(function(){
   dom={};
-  // dom.queryDate = $("#date .btn");
+  dom.queryDate = $("#date .btn");
   dom.queryFloor = $(".campus .btn");
   dom.mybody = $(document.body);
   dom.myModal =  $("#myModal");
@@ -17,7 +17,7 @@ $(document).ready(function(){
   first = 1;          //  声明一个全局变量，记录是否进入时间选择模式
   var scrollHeight;   // 记录第二个页面的滚动高度
 
-  // dom.queryDate.click(chooseDate);              // 绑定日期按钮
+  dom.queryDate.click(chooseDate);              // 绑定日期按钮
   dom.queryFloor.click(chooseBuilding);         // 绑定楼宇按钮
 
   $(".close-result").click(closeResultPage);
@@ -53,10 +53,10 @@ function cancelAjax(){
 }
 
 
-/*function chooseDate(){
+function chooseDate(){
   dom.queryDate.removeClass("btn-primary");
   $(this).addClass("btn-primary");
-}*/
+}
 
 
 function chooseBuilding(){
@@ -75,27 +75,26 @@ function chooseBuilding(){
   params.b_name = floor;
 
   dom.ajaxProcess = $.ajax({
-    url: "/test",
+    url: "/rooms",
     type: "get",
     dataType: "json",
     cache: false,
     timeout: 5000,
-    data: {},
+    data: params,
     success: function(data){
-      alert(data);
-      // if(data.success === 1){
-        if (data.length < 1) {
-          loadingFade();
-          alert("暂时没有数据");
-          closeResultPage();
-          return;
-        }
+      if(data.success === 1){
+	if (data.result.length < 1) {
+	  loadingFade();
+	  alert("暂时没有数据");
+	  closeResultPage();
+	  return;
+	}
         openResultPage(data,params);
-      // }else{
-      //   alert('服务器有点儿累了');
-      //   clickedElem.removeClass("btn-primary");
-      //   loadingFade();
-      // }
+      }else{
+        alert('服务器有点儿累了');
+        clickedElem.removeClass("btn-primary");
+        loadingFade();
+      }
     },
     complete: function(XMLHttpRequest, status){
       if(status == 'error'){
@@ -110,7 +109,6 @@ function chooseBuilding(){
       }
     }
   });
-
 }
 
 
@@ -122,37 +120,20 @@ function openResultPage(data,params){
 
   dom.resultPage.removeClass("hide");
 
-/*  var queryDate;
+  var queryDate;
   if(params.time === "today") {
     queryDate = '今天';
   } else if (params.time === "tomorrow") {
     queryDate = '明天';
   } else {
     queryDate = '后天';
-  }*/
+  }
 
   $(".location-on").text(params.b_name);
-  // $("span.date-on").text(queryDate);
+  $("span.date-on").text(queryDate);
 
-  // var items = data.split(',');
-  var items = data;
-  for (var i=0;i<items.length;i++) {
-    dom.roomTable.append("<div class='row record" + i + "'><div class='room'><div class='future" + i + "'>" + (i+1) + "</div>");
-    var elem = "." + "record" + i;
-
-    for (var j=0;j<items[i].length;j++) {
-      if(items[i][j] === 0) {
-        $(elem).append("<div class='section" + j + " col'><label class='status empty'>空</label></div></div>");
-      } else {
-        $(elem).append("<div class='section" + j + " col'><label class='status occupy'>占</label></div>");
-      }
-
-    }
-  }
-  $("div[class^='future']").click(beforeDetailPage);
-  $("#result label.empty").click(chooseLikeRoom);
-
-/*  $.each(items, function(i, item){
+  var items = data.result;
+  $.each(items, function(i, item){
     dom.roomTable.append("<div class='row record" + i + "'><div class='room'><div class='future" + i + "'>" + item.room_number + "</div>");
 
     var elem = "." + "record" + i;
@@ -170,8 +151,7 @@ function openResultPage(data,params){
   });
 
   $("div[class^='future']").click(beforeDetailPage);
-  $("#result label.empty").click(chooseLikeRoom);*/
-
+  $("#result label.empty").click(chooseLikeRoom);
 }
 
 
