@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <!DOCTYPE struts PUBLIC
+                "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+                "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<package name="teacher" namespace="/teacher" extends="json-default">
+
+    <interceptors>
+        <interceptor name="teacherInterceptor"
+                     class="com.postgraduate.interceptors.TeacherLoginInterceptor" >
+        </interceptor>
+    </interceptors>
+
+    <global-results>
+        <result name="login">/login.jsp</result>
+    </global-results>
+
+    <action name="toTeacherIndex" class="com.postgraduate.action.TeacherAction" method="getIndex">
+        <result name="success">/teacher/teacher_index.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <interceptor-ref name="teacherInterceptor" />
+    </action>
+
+    <action name="editTeacherInf" class="com.postgraduate.action.TeacherAction" method="editInf">
+        <result name="success">/teacher/teacher_inf.jsp</result>
+        <interceptor-ref name="teacherInterceptor" />
+    </action>
+
+    <action name="viewStudentDetail" class="com.postgraduate.action.TeacherAction" method="viewStudentDetail">
+        <result name="success">/teacher/student_detail.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+     <action name="validatePreNum" class="com.postgraduate.action.TeacherAction" method="validatePreNum">
+        <result type="json" name="success">
+            <param name="root">usedPreNum</param>
+        </result>
+    </action>
+
+    <action name="validateFinalNum" class="com.postgraduate.action.TeacherAction" method="validateFinalNum">
+        <result type="json" name="success">
+            <param name="root">usedFinalNum</param>
+        </result>
+    </action>
+
+    <action name="updateTeacherInf" class="com.postgraduate.action.TeacherAction" method="updateInf">
+        <!--<result name="success">/teacher/teacher_inf.jsp</result>-->
+        <result type="chain" name="success">
+            <param name="actionName">editTeacherInf</param>
+        </result>
+        <result name="error">/teacher/error.jsp</result>
+        <result name="input">/teacher/teacher_inf.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="toSearch" class="com.postgraduate.action.TeacherAction" method="toSearch">
+        <result name="success">/teacher/teacher_search.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <interceptor-ref name="teacherInterceptor" />
+    </action>
+
+    <action name="viewSearchResult" class="com.postgraduate.action.TeacherAction" method="viewSearchResult">
+        <result name="success">/teacher/search_result.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="cancelPreReq" class="com.postgraduate.action.TeacherAction" method="cancelPreReq">
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <result name="warning">/teacher/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewTeacherMsg" class="com.postgraduate.action.TeacherAction" method="viewMsg" >
+        <result name="success" >/teacher/view_msg.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="sendPreReq" class="com.postgraduate.action.TeacherAction" method="sendPreReq">
+        <result name="warning">/teacher/waring.jsp</result>
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="sendFinalReq" class="com.postgraduate.action.TeacherAction" method="sendFinalReq" >
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <result name="warning">/teacher/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewPreSucList" class="com.postgraduate.action.TeacherAction" method="viewPreSucList">
+        <result name="success">/teacher/pre_success_list.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewPreReqList" class="com.postgraduate.action.TeacherAction" method="viewPreReqList">
+        <result name="success">/teacher/pre_req_list.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="writeMsg" class="com.postgraduate.action.TeacherAction" method="writeMsg">
+        <result name="success" >/teacher/write_msg.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="logout" class="com.postgraduate.action.TeacherAction" method="logout">
+        <result name="success" type="chain">
+            <param name="namespace">/</param>
+            <param name="actionName"></param>
+        </result>
+        <result name="login">/login.jsp</result>
+    </action>
+
+    <action name="agreePreReq" class="com.postgraduate.action.TeacherAction" method="agreePreReq" >
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/waring.jsp</result>
+        <result name="warning">/teacher/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="refusePreReq" class="com.postgraduate.action.TeacherAction" method="refusePreReq">
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/waring.jsp</result>
+        <result name="warning">/teacher/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="agreeFinalReq" class="com.postgraduate.action.TeacherAction" method="agreeFinalReq" >
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/waring.jsp</result>
+        <result name="warning">/teacher/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="refuseFinalReq" class="com.postgraduate.action.TeacherAction" method="refuseFinalReq">
+        <result name="success">/teacher/waring.jsp</result>
+        <result name="error">/teacher/waring.jsp</result>
+        <result name="warning">/teacher/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewMsgDetail" class="com.postgraduate.action.TeacherAction" method="viewMsgDetail">
+        <result name="success">/teacher/msg_detail.jsp</result>
+        <result name="error">/teacher/waring.jsp</result>
+    </action>
+
+    <action name="viewAllReq" class="com.postgraduate.action.TeacherAction" method="viewAllReq">
+        <result name="success">/teacher/view_req.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewFinalSucList" class="com.postgraduate.action.TeacherAction" method="viewFinalSucList">
+        <result name="success">/teacher/final_suc_list.jsp</result>
+        <result name="error">/teacher/error.jsp</result>
+    </action>
+
+</package>
+
+<package name="student" namespace="/student" extends="json-default">
+    <interceptors>
+        <interceptor name="studentInterceptor"
+                     class="com.postgraduate.interceptors.StudentLoginInterceptor" >
+        </interceptor>
+    </interceptors>
+
+    <global-results>
+        <result name="login">/login.jsp</result>
+    </global-results>
+
+    <action name="toStudentIndex" class="com.postgraduate.action.StudentAction" method="getIndex">
+        <result name="success">/student/student_index.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <interceptor-ref name="studentInterceptor" />
+    </action>
+
+    <action name="editStudentInf" class="com.postgraduate.action.StudentAction" method="editInf">
+        <result name="success">/student/student_inf.jsp</result>
+        <interceptor-ref name="studentInterceptor" />
+    </action>
+
+    <action name="viewTeacherDetail" class="com.postgraduate.action.StudentAction" method="viewTeacherDetail">
+        <result name="success">/student/teacher_detail.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="updateStudentInf" class="com.postgraduate.action.StudentAction" method="updateInf">
+        <result name="success">/student/student_inf.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <result name="input">/student/student_inf.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="toSearch" class="com.postgraduate.action.StudentAction" method="toSearch">
+        <result name="success">/student/student_search.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <interceptor-ref name="studentInterceptor" />
+    </action>
+
+    <action name="viewSearchResult" class="com.postgraduate.action.StudentAction" method="viewSearchResult">
+        <result name="success">/student/search_result.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="cancelPreReq" class="com.postgraduate.action.StudentAction" method="cancelPreReq">
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <result name="warning">/student/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewStudentMsg" class="com.postgraduate.action.StudentAction" method="viewMsg" >
+        <result name="success" >/student/view_msg.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="sendPreReq" class="com.postgraduate.action.StudentAction" method="sendPreReq">
+        <result name="warning">/student/waring.jsp</result>
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="sendFinalReq" class="com.postgraduate.action.StudentAction" method="sendFinalReq" >
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <result name="warning">/student/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewPreSucList" class="com.postgraduate.action.StudentAction" method="viewPreSucList">
+        <result name="success">/student/pre_success_list.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewPreReqList" class="com.postgraduate.action.StudentAction" method="viewPreReqList">
+        <result name="success">/student/pre_req_list.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="writeMsg" class="com.postgraduate.action.StudentAction" method="writeMsg">
+        <result name="success" >/student/write_msg.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="logout" class="com.postgraduate.action.StudentAction" method="logout">
+        <result name="success" type="chain">
+            <param name="namespace">/</param>
+            <param name="actionName"></param>
+        </result>
+        <result name="login">/login.jsp</result>
+    </action>
+
+    <action name="agreePreReq" class="com.postgraduate.action.StudentAction" method="agreePreReq" >
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/waring.jsp</result>
+        <result name="warning">/student/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="refusePreReq" class="com.postgraduate.action.StudentAction" method="refusePreReq">
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/waring.jsp</result>
+        <result name="warning">/student/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="agreeFinalReq" class="com.postgraduate.action.StudentAction" method="agreeFinalReq" >
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/waring.jsp</result>
+        <result name="warning">/student/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="refuseFinalReq" class="com.postgraduate.action.StudentAction" method="refuseFinalReq">
+        <result name="success">/student/waring.jsp</result>
+        <result name="error">/student/waring.jsp</result>
+        <result name="warning">/student/waring.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewAllReq" class="com.postgraduate.action.StudentAction" method="viewAllReq">
+        <result name="success">/student/view_req.jsp</result>
+        <result name="error">/student/error.jsp</result>
+        <!--<interceptor-ref name="teacherInterceptor" />-->
+    </action>
+
+    <action name="viewFinalSucList" class="com.postgraduate.action.StudentAction" method="viewFinalSucList">
+        <result name="success">/student/final_suc_list.jsp</result>
+        <result name="error">/student/error.jsp</result>
+    </action>
+</package>
+
+<package name="msg_teacher" namespace="/msg/teacher" extends="json-default">
+    <action name="sendMsg" class="com.postgraduate.action.TeacherMsgAction" method="sendMsg">
+        <result name="success" type="chain">
+            <param name="actionName">getPersonMsgs</param>
+        </result>
+        <result name="view" type="chain">
+            <param name="actionName">viewMsgPanel</param>
+        </result>
+    </action>
+
+    <action name="viewMsgPanel" class="com.postgraduate.action.TeacherMsgAction" method="viewMsgPanel">
+        <result name="success">/teacher/view_msg.jsp</result>
+    </action>
+
+    <action name="getPersonMsgs" class="com.postgraduate.action.TeacherMsgAction" method="getPersonMsgs">
+        <result type="json" name="success">
+            <param name="root">msgsJson</param>
+        </result>
+        <result name="error">/error.jsp</result>
+    </action>
+
+    <action name="getNewMsgNum" class="com.postgraduate.action.TeacherMsgAction" method="getNewMsgNum">
+        <result type="json" name="success">
+            <param name="root">msgNum</param>
+        </result>
+    </action>
+
+    <action name="updateReadMsg" class="com.postgraduate.action.TeacherMsgAction" method="updateReadMsg">
+        <result type="json" name="success"></result>
+    </action>
+
+</package>
+
+<package name="msg_student" namespace="/msg/student" extends="json-default">
+    <action name="sendMsg" class="com.postgraduate.action.StudentMsgAction" method="sendMsg">
+        <result name="success" type="chain">
+            <param name="actionName">getPersonMsgs</param>
+        </result>
+        <result name="view" type="chain">
+            <param name="actionName">viewMsgPanel</param>
+        </result>
+    </action>
+
+    <action name="viewMsgPanel" class="com.postgraduate.action.StudentMsgAction" method="viewMsgPanel">
+        <result name="success">/student/view_msg.jsp</result>
+    </action>
+
+    <action name="getPersonMsgs" class="com.postgraduate.action.StudentMsgAction" method="getPersonMsgs">
+        <result type="json" name="success">
+            <param name="root">msgsJson</param>
+        </result>
+        <result name="error">/error.jsp</result>
+    </action>
+
+    <action name="getNewMsgNum" class="com.postgraduate.action.StudentMsgAction" method="getNewMsgNum">
+        <result type="json" name="success">
+            <param name="root">msgNum</param>
+        </result>
+    </action>
+
+    <action name="updateReadMsg" class="com.postgraduate.action.StudentMsgAction" method="updateReadMsg">
+        <result type="json" name="success"></result>
+    </action>
+</package>
+
+<package name="index" namespace="/" extends="json-default">
+    <action name="login" class="com.postgraduate.action.UserAction" method="login">
+        <result name="teacher" type="chain">
+            <param name="namespace">/teacher</param>
+            <param name="actionName">toTeacherIndex</param>
+        </result>
+        <result name="student" type="chain">
+            <param name="namespace">/student</param>
+            <param name="actionName">toStudentIndex</param>
+        </result>
+        <result name="login" >/login.jsp</result>
+    </action>
+
+    <action name="getQuestion" class="com.postgraduate.action.UserAction" method="getQuestion">
+        <result name="success" type="json">
+            <param name="root">data</param>
+        </result>
+    </action>
+
+    <action name="validateAnswer" class="com.postgraduate.action.UserAction" method="validateAnswer">
+        <result name="success" type="json">
+            <param name="root">data</param>
+        </result>
+    </action>
+
+    <action name="resetPass" class="com.postgraduate.action.UserAction" method="resetPass">
+        <result name="success" type="json">
+            <param name="root">data</param>
+        </result>
+    </action>
+
+    <!--<action name="login" class="com.postgraduate.action.UserAction" method="login">
+        <result type="json" name="success">
+            <param name="root">data</param>
+        </result>
+    </action>-->
+
+    <action name="validateId" class="com.postgraduate.action.UserAction" method="validateId" >
+        <result type="json" name="success">
+            <param name="root">data</param>
+        </result>
+    </action>
+
+    <action name="logup" class="com.postgraduate.action.UserAction" method="logup">
+        <result name="success">/login.jsp</result>
+        <result name="input">/logup.jsp</result>
+    </action>
+</package>
+
+</struts>
