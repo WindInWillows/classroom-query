@@ -25,6 +25,25 @@ public class from_sql_to_classquery {
         }
     }
 
+    public String getRoomDetail(String id){
+        int id_int= Integer.parseInt(id);
+        try{
+            prst=conn.prepareStatement("SELECT * FROM classquery WHERE id=?");
+            prst.setInt(1,id_int);
+            ResultSet rs=prst.executeQuery();
+            if (rs.next()){
+                return rs.getString(2);
+            }
+            else{
+                return null;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public boolean read_to_classquery(){
         try{
             prst=conn.prepareStatement("SELECT * FROM classquery WHERE id=?");
