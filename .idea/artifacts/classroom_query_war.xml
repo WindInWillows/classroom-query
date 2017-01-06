@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="classroom query:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/classroom_query_war</output-path>
+    <root id="archive" name="classroom query_war.war">
+      <element id="artifact" artifact-name="classroom query:war exploded" />
+    </root>
+  </artifact>
+</component>

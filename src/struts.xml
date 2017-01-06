@@ -6,34 +6,28 @@
 
 <struts>
 
-<package name="upload" namespace="/" extends="struts-default">
-    <action name="uploadData" class="action.uploadAction">
+<package name="query" namespace="/" extends="json-default">
+
+    <action name="uploadData" class="action.RoomAction" method="updateData">
         <result name="success">index.jsp</result>
         <result name="error">error.jsp</result>
     </action>
 
-    <action name="getIP" class="action.uploadAction" method="viewIP">
-        <result name="success">ip.jsp</result>
-    </action>
-</package>
-
-<package name="query" namespace="/" extends="json-default">
     <action name="test" class="action.RoomAction" method="test">
         <result name="success" type="json">
-            <param name="root">res</param>
+            <param name="root">room.json</param>
         </result>
     </action>
 
     <action name="viewRoomDetail" class="action.RoomAction" method="viewRoomDetail">
         <result name="success" type="json">
-            <param name="root">res</param>
+            <param name="root">room.json</param>
         </result>
     </action>
 
     <action name="viewRoomList" class="action.RoomAction" method="viewRoomList">
-        <result name="success" type="json">
-            <param name="root">res</param>
-        </result>
+        <result name="success">/room_list.jsp</result>
+        <result name="error">/error.jsp</result>
     </action>
 
 </package>

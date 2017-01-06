@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+  <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=divice-width,initial-scale=1.0,user-scalable=0">
@@ -13,7 +14,10 @@
   <meta name="keywords" content="哈尔滨工业大学,哈工大,空闲教室">
   <meta name="description" content="哈尔滨工业大学最好用的空闲教室查询">
   <link rel="stylesheet" type="text/css" href="./res/style.css">
-<style type="text/css"></style></head><body class="">
+<style type="text/css"></style>
+    <jsp:include page="bootstrap.jsp" />
+  </head>
+  <body class="">
   <div id="choose" class="container">
     <div class="notice">
       <span>教室占用情况可能存在临时变动</span>
@@ -79,6 +83,19 @@
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $(".campus .btn").click(function () {
+        var building  = $(this).text();
+        if(building==="正心楼") {
+          window.location.href = "viewRoomList";
+        } else {
+          alert("暂无数据");
+        }
+      });
+    })
+  </script>
 
  <%-- <script src="./res/jquery-1.11.0.min.js"></script>
   <script type="text/javascript">

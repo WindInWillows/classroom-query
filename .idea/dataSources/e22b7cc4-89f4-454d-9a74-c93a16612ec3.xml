@@ -21,7 +21,19 @@
     <column id="12" parent="10" name="json">
       <data-type>text|0</data-type>
     </column>
-    <key id="13" parent="10" name="PRIMARY">
+    <column id="13" parent="10" name="total">
+      <data-type>int(11)|0</data-type>
+      <default-expression>&apos;100&apos;</default-expression>
+    </column>
+    <column id="14" parent="10" name="used">
+      <data-type>int(11)|0</data-type>
+      <default-expression>&apos;10&apos;</default-expression>
+    </column>
+    <column id="15" parent="10" name="change">
+      <data-type>int(11)|0</data-type>
+      <default-expression>&apos;0&apos;</default-expression>
+    </column>
+    <key id="16" parent="10" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>

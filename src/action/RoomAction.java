@@ -2,49 +2,65 @@ package action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import dao.RoomDAO;
+import entity.Room;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhao on 2017/1/1.
  */
 public class RoomAction extends ActionSupport{
-    private RoomDAO rdao = new RoomDAO();
+    private RoomDAO roomDAO = new RoomDAO();
+    private List<Room> rooms = new ArrayList<>();
+    private Room room = new Room();
+    private String opt = "";
 
-    private String acc = new String("");
-    private String res = new String("");
-
-    public String getAcc() {
-        return acc;
+    public String getOpt() {
+        return opt;
     }
 
-    public void setAcc(String acc) {
-        this.acc = acc;
+    public void setOpt(String opt) {
+        this.opt = opt;
     }
 
-    public String getRes() {
-        return res;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRes(String res) {
-        this.res = res;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    public String getRoomDetail() {
-        return SUCCESS;
+    public List<Room> getRooms() {
+        return rooms;
     }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
 
     public String test() throws Exception
     {
-        res = "[[2,2],[0,1],[1,0]]";
-        System.out.println("data got!");
+        String res = "[[0,0,1,1,1,0,1,0],[0,1,0,0,1,1,1,0],[1,0,0,0,1,1,1,0],[1,0,0,0,1,1,1,0],[1,0,0,0,1,1,1,0],[0,1,0,0,1,1,0,0],[0,1,0,0,1,1,0,1]]";
+        room.setJson(res);
+//        res = "[[0,0,,1,1,,1,0],[0,1,,0,0,,1,1],[1,0,,0,0,,1,1],[1,0,,0,0,,1,1],[1,0,,0,0,,1,1],[0,1,,0,0,,1,1],[0,1,,0,0,,1,1]]";
         return "success";
     }
 
     public String viewRoomDetail() throws Exception {
-        res = rdao.getRoomDetail(acc);
+        String res = roomDAO.getRoomDetail(room.getId());
+        room.setJson(res);
         return "success";
     }
 
     public String viewRoomList() throws Exception {
+        rooms = roomDAO.getRoomList(opt);
         return "success";
+    }
+
+    public String updateData() throws Exception {
+        if(roomDAO.updateData(room.getId(),room.getJson())) return SUCCESS;
+        return ERROR;
     }
 }

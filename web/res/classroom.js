@@ -1,7 +1,5 @@
 $(document).ready(function(){
   dom={};
-  // dom.queryDate = $("#date .btn");
-  dom.queryFloor = $(".campus .btn");
   dom.mybody = $(document.body);
   dom.myModal =  $("#myModal");
   dom.choosePage = $("#choose");
@@ -12,24 +10,14 @@ $(document).ready(function(){
   dom.roomTable = $(".room-table");
   dom.roomDetail = $(".room-detail");
   dom.exitSelectTime = $("#exit-select");
+    dom.queryRoom = $(".room-tr");
   dom.ajaxProcess;
 
   first = 1;          //  声明一个全局变量，记录是否进入时间选择模式
   var scrollHeight;   // 记录第二个页面的滚动高度
 
-  // dom.queryDate.click(chooseDate);              // 绑定日期按钮
-  dom.queryFloor.click(chooseBuilding);         // 绑定楼宇按钮
+    dom.queryRoom.click(chooseRoom);
 
-  $(".close-result").click(closeResultPage);
-  $(".close-detail").click(closeDetailPage);
-  dom.section.click(showOneColumn);             // 例：只显示 1-2 节的使用情况
-  dom.exitSelectTime.click(exitSelect);
-
-  $("#detail .time .col").click(test);
-  function test(){
-    console.log("message");
-    return false;
-  }
 });
 
 
@@ -53,59 +41,38 @@ function cancelAjax(){
 }
 
 
-/*function chooseDate(){
-  dom.queryDate.removeClass("btn-primary");
-  $(this).addClass("btn-primary");
-}*/
+function chooseRoom(){
 
-
-function chooseBuilding(){
-  dom.queryFloor.removeClass("btn-primary");
   var clickedElem = $(this);
-  clickedElem.addClass("btn-primary");
-
+  clickedElem.addClass("active");
   loadingIn();
-
-  var campus = clickedElem.data('campus');
-  var date = $("#date .btn-primary").data('value');
-  var floor = clickedElem.text();
-  var params={};
-  params.ca = campus;
-  params.time = date;
-  params.b_name = floor;
+    var room_id = $(this).find("span.room-id-span").html();
 
   dom.ajaxProcess = $.ajax({
-    url: "/test",
+    url: "/viewRoomDetail?room.id="+room_id,
     type: "get",
     dataType: "json",
     cache: false,
     timeout: 5000,
-    data: {},
+
     success: function(data){
-      alert(data);
-      // if(data.success === 1){
         if (data.length < 1) {
           loadingFade();
           alert("暂时没有数据");
           closeResultPage();
           return;
         }
-        openResultPage(data,params);
-      // }else{
-      //   alert('服务器有点儿累了');
-      //   clickedElem.removeClass("btn-primary");
-      //   loadingFade();
-      // }
+        openResultPage(data);
     },
     complete: function(XMLHttpRequest, status){
       if(status == 'error'){
         alert('请检查网络连接');
-        clickedElem.removeClass("btn-primary");
+        clickedElem.removeClass("active");
         cancelAjax();
       }
       if(status == 'timeout'){
         alert('当前网络较慢，请重试');
-        clickedElem.removeClass("btn-primary");
+        clickedElem.removeClass("active");
         cancelAjax();
       }
     }
@@ -115,41 +82,31 @@ function chooseBuilding(){
 
 
 
-function openResultPage(data,params){
+function openResultPage(data){
   dom.choosePage.addClass("hide");
 
   loadingFade();
 
   dom.resultPage.removeClass("hide");
 
-/*  var queryDate;
-  if(params.time === "today") {
-    queryDate = '今天';
-  } else if (params.time === "tomorrow") {
-    queryDate = '明天';
-  } else {
-    queryDate = '后天';
-  }*/
-
-  $(".location-on").text(params.b_name);
-  // $("span.date-on").text(queryDate);
-
-  // var items = data.split(',');
-  var items = data;
+  var items = JSON.parse(data);
   for (var i=0;i<items.length;i++) {
     dom.roomTable.append("<div class='row record" + i + "'><div class='room'><div class='future" + i + "'>" + (i+1) + "</div>");
     var elem = "." + "record" + i;
-
     for (var j=0;j<items[i].length;j++) {
-      if(items[i][j] === 0) {
-        $(elem).append("<div class='section" + j + " col'><label class='status empty'>空</label></div></div>");
-      } else {
-        $(elem).append("<div class='section" + j + " col'><label class='status occupy'>占</label></div>");
-      }
+
+        if(j%2===0 && j!=0){
+            $(elem).append("<div class='col-no'></div>");
+        }
+        if (items[i][j] === 0) {
+            $(elem).append("<div class='section" + j + " col'><label class='status empty'>空</label></div></div>");
+        } else if (items[i][j] === 1) {
+            $(elem).append("<div class='section" + j + " col'><label class='status occupy'>占</label></div>");
+        }
 
     }
   }
-  $("div[class^='future']").click(beforeDetailPage);
+  // $("div[class^='future']").click(beforeDetailPage);
   $("#result label.empty").click(chooseLikeRoom);
 
 /*  $.each(items, function(i, item){
@@ -199,31 +156,6 @@ function chooseLikeRoom(){
 }
 
 
-function showOneColumn(){
-  var clickElem = $(this);
-  var clickId = clickElem.attr("id");
-  var showElem = "div[class^='" + clickId + "']";
-  var flag = clickElem.attr("class").indexOf("selected");
-
-  dom.exitSelectTime.removeClass("hide");
-
-  if(first === 1) {
-    $("div[class^='section']").addClass("transparent");     // 所有都不显示
-    clickElem.addClass("selected");                         // 选中时间
-    $(showElem).removeClass("transparent");                 // 显示 选中的列
-    first = 2;
-  } else {
-    if(flag === -1){      // 没有选中
-      clickElem.addClass("selected");
-      $(showElem).removeClass("transparent");
-    } else {              // 选中
-      clickElem.removeClass("selected");
-      $(showElem).addClass("transparent");
-    }
-  }
-}
-
-
 function exitSelect(){
   first = 1;
   dom.section.removeClass("selected");
@@ -238,7 +170,6 @@ function closeResultPage(){
   first = 1;                              // 下次进入 resultPage 时点击是第一次
   dom.exitSelectTime.addClass("hide");    // 关闭 时间选择模式
   dom.roomTable.empty();
-  dom.queryFloor.removeClass("btn-primary");
   dom.choosePage.removeClass("hide");
 }
 
@@ -269,7 +200,7 @@ function beforeDetailPage(){
     success: function(data){
       if(data.success === 1){
         openDetailPage(data,params);
-      }else{
+      } else {
         alert('服务器有点儿累了');
         clickedElem.removeClass("btn-primary");
         loadingFade();
